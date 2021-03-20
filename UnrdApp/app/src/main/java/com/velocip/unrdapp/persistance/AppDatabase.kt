@@ -4,18 +4,19 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.velocip.unrdapp.data.StoryResult
+import com.velocip.unrdapp.data.Story
+import com.velocip.unrdapp.utils.AppConstants
 
 
 @Database(entities = [
-    StoryResult::class
+    Story::class
 ],
     version = 1,
     exportSchema = false
 )
 abstract class AppDatabase: RoomDatabase() {
 
-    abstract  fun storyResultDao(): StoryResultDao
+    abstract  fun storyResultDao(): StoryDao
 
 
     companion object {
@@ -42,8 +43,7 @@ abstract class AppDatabase: RoomDatabase() {
         private fun buildDatabase(context: Context): AppDatabase {
             return Room.databaseBuilder(
                 context.applicationContext,
-                AppDatabase::class.java,
-                "unrdDatabase")
+                AppDatabase::class.java,AppConstants.STORY_DATABASE_NAME)
                 .fallbackToDestructiveMigration()
                 .build()
         }

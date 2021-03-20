@@ -1,4 +1,4 @@
-package com.velocip.unrdapp.di
+package com.velocip.unrdapp.di.database_modules
 
 import android.content.Context
 import com.velocip.unrdapp.persistance.AppDatabase
