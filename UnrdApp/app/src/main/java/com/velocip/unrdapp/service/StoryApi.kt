@@ -1,6 +1,5 @@
 package com.velocip.unrdapp.service
 
-import com.velocip.unrdapp.data.StoryDto
 import com.velocip.unrdapp.data.models.StoryResult
 import kotlinx.coroutines.Deferred
 import retrofit2.Response

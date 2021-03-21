@@ -87,7 +87,8 @@ class DefaultResultRepository @Inject constructor(
 
 
     private suspend fun updateStoryFromRemoteDataSource(storyId: String) {
-        val remoteStory = storyRemoteDataSource.getStory(storyId)
+        //val remoteStory = storyRemoteDataSource.getStory(storyId)
+        val remoteStory = storyRemoteDataSource.getStoryAsync(storyId)
 
         if (remoteStory is Success) {
             storyLocalDataSource.saveStory(remoteStory.data)

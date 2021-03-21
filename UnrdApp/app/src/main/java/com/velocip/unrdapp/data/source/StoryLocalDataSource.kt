@@ -2,7 +2,7 @@ package com.velocip.unrdapp.data.source
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
-import com.velocip.unrdapp.data.Story
+import com.velocip.unrdapp.data.models.Story
 import com.velocip.unrdapp.persistance.StoryDao
 import com.velocip.unrdapp.utils.Result
 import com.velocip.unrdapp.utils.Result.*

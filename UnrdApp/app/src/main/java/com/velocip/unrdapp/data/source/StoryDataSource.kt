@@ -16,6 +16,8 @@ interface StoryDataSource{
 
     suspend fun getStory(storyId: String): Result<Story>
 
+    suspend fun getStoryAsync(storyId: String): Result<Story>
+
     suspend fun refreshStory(storyId: String)
 
     suspend fun saveStory(story: Story)

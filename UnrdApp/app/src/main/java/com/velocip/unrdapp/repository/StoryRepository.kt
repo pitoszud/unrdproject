@@ -1,7 +1,7 @@
 package com.velocip.unrdapp.repository
 
 import androidx.lifecycle.LiveData
-import com.velocip.unrdapp.data.Story
+import com.velocip.unrdapp.data.models.Story
 import com.velocip.unrdapp.utils.Result
 
 interface StoryRepository {

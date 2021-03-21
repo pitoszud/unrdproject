@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.velocip.unrdapp.data.Story
+import com.velocip.unrdapp.data.models.Story
 import com.velocip.unrdapp.utils.AppConstants
 
 

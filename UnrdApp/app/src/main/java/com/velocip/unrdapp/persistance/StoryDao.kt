@@ -2,7 +2,7 @@ package com.velocip.unrdapp.persistance
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.velocip.unrdapp.data.Story
+import com.velocip.unrdapp.data.models.Story
 
 
 @Dao

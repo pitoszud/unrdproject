@@ -67,7 +67,7 @@ class StoryRemoteDataSource(
     }
 
 
-    suspend fun getStoryAsync(storyId: String): Result<Story> = withContext(ioDispatcher){
+    override suspend fun getStoryAsync(storyId: String): Result<Story> = withContext(ioDispatcher){
         val storyResult: Deferred<StoryResult> = storyApi.getStoryResultAsync()
         try {
             val result = storyResult.await()
