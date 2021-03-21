@@ -1,5 +1,7 @@
 package com.velocip.unrdapp.di.service_modules
 
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.velocip.unrdapp.service.StoryApi
 import com.velocip.unrdapp.utils.AppConstants
 import dagger.Module
@@ -41,11 +43,15 @@ object StoryApiModule {
         .retryOnConnectionFailure(false)
         .build()
 
+    private val moshi = Moshi.Builder()
+            .add(KotlinJsonAdapterFactory())
+            .build()
+
 
     private val retrofitBuilder = Retrofit.Builder()
         .baseUrl(AppConstants.STORY_BASE_URL)
         .client(okHttpClient)
-        .addConverterFactory(MoshiConverterFactory.create())
+        .addConverterFactory(MoshiConverterFactory.create(moshi))
 
 
     @Singleton

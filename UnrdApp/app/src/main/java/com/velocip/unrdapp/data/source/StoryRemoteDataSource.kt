@@ -10,6 +10,7 @@ import com.velocip.unrdapp.service.StoryApi
 import com.velocip.unrdapp.utils.Result
 import com.velocip.unrdapp.utils.Result.*
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Response
@@ -60,6 +61,17 @@ class StoryRemoteDataSource(
             }else{
                 return@withContext Error(java.lang.Exception("Unknown error occured"))
             }
+        } catch (e: Exception) {
+            return@withContext Error(e)
+        }
+    }
+
+
+    suspend fun getStoryAsync(storyId: String): Result<Story> = withContext(ioDispatcher){
+        val storyResult: Deferred<StoryResult> = storyApi.getStoryResultAsync()
+        try {
+            val result = storyResult.await()
+            return@withContext Success(result.toStory())
         } catch (e: Exception) {
             return@withContext Error(e)
         }
