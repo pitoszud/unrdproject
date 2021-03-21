@@ -52,6 +52,19 @@ class StoryLocalDataSource(
         }
     }
 
+    override suspend fun getStoryAsync(storyId: String): Result<Story> = withContext(ioDispatcher) {
+        try {
+            val story = storyDao.getStoryById(storyId)
+            if (story != null) {
+                return@withContext Success(story)
+            } else {
+                return@withContext Error(Exception("Story not found!"))
+            }
+        } catch (e: Exception) {
+            return@withContext Error(e)
+        }
+    }
+
     override suspend fun refreshStory(storyId: String) {
         // n/a
     }

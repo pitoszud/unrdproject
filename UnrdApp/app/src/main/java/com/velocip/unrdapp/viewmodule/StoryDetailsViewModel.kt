@@ -1,14 +1,18 @@
 package com.velocip.unrdapp.viewmodule
 
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.velocip.unrdapp.data.models.Story
 import com.velocip.unrdapp.repository.StoryRepository
 import com.velocip.unrdapp.utils.Result
 import com.velocip.unrdapp.utils.Result.*
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class StoryDetailsViewModel(private val storyRepository: StoryRepository): ViewModel() {
+@HiltViewModel
+class StoryDetailsViewModel @Inject constructor(private val storyRepository: StoryRepository): ViewModel() {
 
     private val _dataLoading = MutableLiveData<Boolean>()
     val dataLoading: LiveData<Boolean> = _dataLoading
@@ -23,15 +27,16 @@ class StoryDetailsViewModel(private val storyRepository: StoryRepository): ViewM
                 _dataLoading.value = false
             }
         }
-        storyRepository.observeStories().switchMap { filterTasks(it) }
-
+        storyRepository.observeStories().switchMap { filterStories(it) }
     }
+    val stories: LiveData<List<Story>> = _stories
+
 
     private val _storyId = MutableLiveData<String>()
     private val _story = _storyId.switchMap { storyId ->
         storyRepository.observeStory(storyId).map { processResult(it) }
     }
-    val task: LiveData<Story?> = _story
+    val story: LiveData<Story?> = _story
 
 
 
@@ -50,7 +55,7 @@ class StoryDetailsViewModel(private val storyRepository: StoryRepository): ViewM
 
         if (tasksResult is Success) {
             viewModelScope.launch {
-                result.value =
+                result.value = tasksResult.data
             }
         } else {
             result.value = emptyList()
@@ -59,4 +64,10 @@ class StoryDetailsViewModel(private val storyRepository: StoryRepository): ViewM
 
         return result
     }
+
+
+    fun loadStories(forceUpdate: Boolean){
+        _forceUpdate.value = forceUpdate
+    }
+
 }

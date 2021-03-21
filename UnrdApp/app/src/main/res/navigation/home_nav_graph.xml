@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_nav_graph_view"
+    app:startDestination="@id/storyDetailsFragment"
+    >
+
+
+    <fragment
+        android:id="@+id/storyDetailsFragment"
+        android:label="Story Details Fragment"
+        android:name="com.velocip.unrdapp.fragment.StoryDetailsFragment"
+        tools:layout="@layout/fragment_story_details"
+        />
+
+</navigation>
