@@ -8,6 +8,7 @@ import com.velocip.unrdapp.data.models.StoryCharacter
 import com.velocip.unrdapp.repository.StoryRepository
 import com.velocip.unrdapp.utils.Result
 import com.velocip.unrdapp.utils.Result.*
+import com.velocip.unrdapp.utils.Result.Success
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -47,6 +48,10 @@ class StoryDetailsViewModel @Inject constructor(private val storyRepository: Sto
         return@switchMap processStoryCharacters(storyList)
     }
     val storyCharacters: LiveData<List<StoryCharacter>> = _storyCharacters
+
+    val empty: LiveData<Boolean> = stories.map {
+        it.isNullOrEmpty()
+    }
 
     val backgroundImage: LiveData<String> = _stories.map {
         if(it.isNotEmpty()){
