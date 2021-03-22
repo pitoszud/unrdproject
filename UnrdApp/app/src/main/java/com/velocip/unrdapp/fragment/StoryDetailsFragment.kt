@@ -1,15 +1,15 @@
 package com.velocip.unrdapp.fragment
 
-import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.velocip.unrdapp.adapters.CharacterAdapter
 import com.velocip.unrdapp.databinding.FragmentStoryDetailsBinding
-import com.velocip.unrdapp.viewmodule.StoryDetailsViewModel
+import com.velocip.unrdapp.viewmodels.StoryDetailsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -17,6 +17,7 @@ class StoryDetailsFragment: Fragment() {
 
     private val storyViewModel: StoryDetailsViewModel by activityViewModels()
     lateinit var binding: FragmentStoryDetailsBinding
+    lateinit var characterAdapter: CharacterAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,6 +27,7 @@ class StoryDetailsFragment: Fragment() {
 
         binding = FragmentStoryDetailsBinding.inflate(inflater, container, false).apply {
             viewModel = storyViewModel
+            lifecycleOwner = viewLifecycleOwner
         }
 
 
@@ -40,12 +42,26 @@ class StoryDetailsFragment: Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        subscribeToStories()
+        setupAdapter()
+        subscribeToCharacters()
     }
 
-    fun subscribeToStories(){
-        storyViewModel.stories.observe(viewLifecycleOwner, {
-            val size = it.size
+
+    private fun subscribeToCharacters(){
+        storyViewModel.storyCharacters.observe(viewLifecycleOwner, {
+            if (it.isNotEmpty()){
+                characterAdapter.submitList(it)
+            }
         })
+    }
+
+
+    private fun setupAdapter(){
+        characterAdapter = CharacterAdapter(storyViewModel)
+        val linearLayoutManager = LinearLayoutManager(activity)
+        binding.characterList.apply {
+            layoutManager = linearLayoutManager
+            adapter = characterAdapter
+        }
     }
 }

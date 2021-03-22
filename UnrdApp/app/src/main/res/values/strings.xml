@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">UnrdApp</string>
-    <string name="login">Login</string>
+    <string name="reload">Reload</string>
 </resources>

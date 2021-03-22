@@ -1,10 +1,10 @@
-package com.velocip.unrdapp.viewmodule
+package com.velocip.unrdapp.viewmodels
 
 
 import android.util.Log
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.velocip.unrdapp.data.models.Story
+import com.velocip.unrdapp.data.models.StoryCharacter
 import com.velocip.unrdapp.repository.StoryRepository
 import com.velocip.unrdapp.utils.Result
 import com.velocip.unrdapp.utils.Result.*
@@ -34,21 +34,39 @@ class StoryDetailsViewModel @Inject constructor(private val storyRepository: Sto
     val stories: LiveData<List<Story>> = _stories
 
 
-    private val _storyId = MutableLiveData<String>()
-    private val _story = _storyId.switchMap { storyId ->
-        storyRepository.observeStory(storyId).map { processResult(it) }
+    private val _story: LiveData<Story> = _stories.map {
+        if(it.isNotEmpty()){
+            return@map it[0]
+        }else
+            return@map Story()
     }
-    val story: LiveData<Story?> = _story
+    val story: LiveData<Story> = _story
 
 
+    private val _storyCharacters: LiveData<List<StoryCharacter>> = stories.switchMap { storyList ->
+        return@switchMap processStoryCharacters(storyList)
+    }
+    val storyCharacters: LiveData<List<StoryCharacter>> = _storyCharacters
 
-    private fun processResult(taskResult: Result<Story>): Story? {
-        return if (taskResult is Success) {
-            taskResult.data
-        } else {
-            // show Snackbar
-            null
+    val backgroundImage: LiveData<String> = _stories.map {
+        if(it.isNotEmpty()){
+            return@map it[0].backgroundImage
+        }else
+            return@map ""
         }
+
+
+
+
+
+    private fun processStoryCharacters(storyList: List<Story>): MutableLiveData<List<StoryCharacter>> {
+        val storyCharactersLiveData = MutableLiveData<List<StoryCharacter>>()
+        if (storyList.isNotEmpty()) {
+            storyCharactersLiveData.value = storyList[0].storyCharacters
+        } else {
+            storyCharactersLiveData.value = emptyList()
+        }
+        return storyCharactersLiveData
     }
 
 

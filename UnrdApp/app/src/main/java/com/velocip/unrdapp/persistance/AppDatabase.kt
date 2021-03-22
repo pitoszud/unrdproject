@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.velocip.unrdapp.data.models.Story
 import com.velocip.unrdapp.utils.AppConstants
 
@@ -11,9 +12,10 @@ import com.velocip.unrdapp.utils.AppConstants
 @Database(entities = [
     Story::class
 ],
-    version = 2,
+    version = 4,
     exportSchema = false
 )
+@TypeConverters(RoomTypeConverter::class)
 abstract class AppDatabase: RoomDatabase() {
 
     abstract  fun storyResultDao(): StoryDao

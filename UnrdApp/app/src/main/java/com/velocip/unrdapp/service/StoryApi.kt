@@ -18,5 +18,5 @@ interface StoryApi {
     suspend fun getStoryResult() : Response<StoryResult>?
 
     @GET("unrd-scratch/resp.json")
-    suspend fun getStoryResultAsync() : Deferred<StoryResult>
+    suspend fun getStoryResultAsync() : StoryResult
 }

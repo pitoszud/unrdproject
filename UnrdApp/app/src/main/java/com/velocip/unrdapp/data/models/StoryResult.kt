@@ -1,234 +1,253 @@
 package com.velocip.unrdapp.data.models
 
-import kotlinx.serialization.Polymorphic
 
-@kotlinx.serialization.Serializable
 data class StoryResult(
-    val result: Result,
-    val status: Status
+    val result: Result? = null,
+    val status: Status? = null
 )
 
-@kotlinx.serialization.Serializable
+
 data class Result(
-    val age_from: Int,
-    val age_to: Int,
-    val background_image: List<BackgroundImage>,
-    val characters: List<Character>,
-    val contacts: List<@Polymorphic Any>,
-    val created: String,
-    val duration: String,
-    val full_summary: String,
-    val genre_id: Int,
-    val intro_video: List<IntroVideo>,
-    val intro_video_sequence: Int,
-    val is_coming_soon: Boolean,
-    val is_early_access: Boolean,
-    val is_featured: Boolean,
-    val is_in_testing: Boolean,
-    val is_owned: Boolean,
-    val is_published: Boolean,
-    val language_id: Int,
-    val last_progress_report: @Polymorphic Any,
-    val list_image: List<ImageX>,
-    val main_character_id: Int,
-    val name: String,
-    val passcode_clue: @Polymorphic Any,
-    val passcode_value: @Polymorphic Any,
-    val preview_media: List<PreviewMedia>,
-    val price: Int,
-    val progress: Int,
-    val publication_status: String,
-    val purchase_date: String,
-    val purchased_items: List<PurchasedItem>,
-    val release_date: @Polymorphic Any,
-    val release_timezone: @Polymorphic Any,
-    val short_summary: String,
-    val story_end_sequence: Int,
-    val story_id: Int,
-    val story_start_sequence: Int,
-    val timelines: List<Timeline>,
-    val updated: String
+        val age_from: Int? = null,
+        val age_to: Int? = null,
+        val background_image: List<BackgroundImage?>? = null,
+        val characters: List<StoryCharacter?>? = null,
+        val contacts: List<Any?>? = null,
+        val created: String? = null,
+        val duration: String? = null,
+        val full_summary: String? = null,
+        val genre_id: Int? = null,
+        val intro_video: List<IntroVideo?>? = null,
+        val intro_video_sequence: Int? = null,
+        val is_coming_soon: Boolean? = null,
+        val is_early_access: Boolean? = null,
+        val is_featured: Boolean? = null,
+        val is_in_testing: Boolean? = null,
+        val is_owned: Boolean? = null,
+        val is_published: Boolean? = null,
+        val language_id: Int? = null,
+        val last_progress_report: Any? = null,
+        val list_image: List<ImageX?>? = null,
+        val main_character_id: Int? = null,
+        val name: String? = null,
+        val passcode_clue: Any? = null,
+        val passcode_value: Any? = null,
+        val preview_media: List<PreviewMedia?>? = null,
+        val price: Int? = null,
+        val progress: Int? = null,
+        val publication_status: String? = null,
+        val purchase_date: String? = null,
+        val purchased_items: List<PurchasedItem?>? = null,
+        val release_date: Any? = null,
+        val release_timezone: Any? = null,
+        val short_summary: String? = null,
+        val story_end_sequence: Int? = null,
+        val story_id: Int? = null,
+        val story_start_sequence: Int? = null,
+        val timelines: List<Timeline?>? = null,
+        val updated: String? = null
 )
 
 
 fun StoryResult.toStory(): Story{
     val result = result
-    return Story(
-            storyId = result.story_id.toString(),
-            created = result.created,
-            duration = result.duration,
-            full_summary = result.full_summary
+
+    val storyCharacters = result?.characters?.map {
+        StoryCharacter(
+                characterId = it?.characterId ?: "",
+                name = it?.name ?: "",
+                imageUrl = it?.imageUrl ?: ""
+        )
+    }
+
+    val story =  Story(
+            storyId = result?.story_id.toString(),
+            created = result?.created ?: "",
+            duration = result?.duration ?: "",
+            full_summary = result?.full_summary ?: "",
+            name = result?.name ?: "",
+            shortSummary = result?.short_summary ?: "",
+            price = result?.price?.toDouble(),
+            ageFrom = result?.age_from ?: 0,
+            updated = result?.updated ?: "",
+            storyImage = result?.list_image?.get(0)?.resource_uri ?: "",
+            videoUrls = result?.preview_media?.map { it?.resource_uri ?: "" } ?: emptyList(),
+            backgroundImage = result?.background_image?.get(0)?.resource_uri ?: ""
     )
+
+    story.storyCharacters = storyCharacters ?: emptyList()
+
+    return story
 }
 
-@kotlinx.serialization.Serializable
+
 data class Status(
-    val code: Int,
-    val message: String
+    val code: Int? = null,
+    val message: String? = null
 )
 
 
-@kotlinx.serialization.Serializable
+
 data class BackgroundImage(
-    val resource_fid: String,
-    val resource_id: Int,
-    val resource_preset: String,
-    val resource_processed: Boolean,
-    val resource_progress: Int,
-    val resource_type: String,
-    val resource_uri: String
+    val resource_fid: String? = null,
+    val resource_id: Int? = null,
+    val resource_preset: String? = null,
+    val resource_processed: Boolean? = null,
+    val resource_progress: Int? = null,
+    val resource_type: String? = null,
+    val resource_uri: String? = null
 )
 
 
-@kotlinx.serialization.Serializable
+
 data class Character(
-    val character_id: Int,
-    val image: Image,
-    val is_main: Boolean,
-    val name: String
+    val character_id: Int? = null,
+    val image: Image? = null,
+    val is_main: Boolean? = null,
+    val name: String? = null
 )
 
 
-@kotlinx.serialization.Serializable
+
 data class IntroVideo(
-    val resource_fid: String,
-    val resource_id: Int,
-    val resource_preset: String,
-    val resource_processed: Boolean,
-    val resource_progress: Int,
-    val resource_type: String,
-    val resource_uri: String
+    val resource_fid: String? = null,
+    val resource_id: Int? = null,
+    val resource_preset: String? = null,
+    val resource_processed: Boolean? = null,
+    val resource_progress: Int? = null,
+    val resource_type: String? = null,
+    val resource_uri: String? = null
 )
 
 
-@kotlinx.serialization.Serializable
+
 data class ImageX(
-    val resource_fid: String,
-    val resource_id: Int,
-    val resource_preset: String,
-    val resource_processed: Boolean,
-    val resource_progress: Int,
-    val resource_type: String,
-    val resource_uri: String
+    val resource_fid: String? = null,
+    val resource_id: Int? = null,
+    val resource_preset: String? = null,
+    val resource_processed: Boolean? = null,
+    val resource_progress: Int? = null,
+    val resource_type: String? = null,
+    val resource_uri: String? = null
 )
 
 
-@kotlinx.serialization.Serializable
+
 data class PreviewMedia(
-    val resource_fid: String,
-    val resource_id: Int,
-    val resource_preset: String,
-    val resource_processed: Boolean,
-    val resource_progress: Int,
-    val resource_type: String,
-    val resource_uri: String
+    val resource_fid: String? = null,
+    val resource_id: Int? = null,
+    val resource_preset: String? = null,
+    val resource_processed: Boolean? = null,
+    val resource_progress: Int? = null,
+    val resource_type: String? = null,
+    val resource_uri: String? = null
 )
 
 
-@kotlinx.serialization.Serializable
+
 data class PurchasedItem(
-    val exchange_key: Int,
-    val exchange_type: String
+    val exchange_key: Int? = null,
+    val exchange_type: String? = null
 )
 
 
-@kotlinx.serialization.Serializable
+
 data class Timeline(
-    val chats: List<Chat>,
-    val created: String,
-    val events: List<Event>,
-    val is_primary: Boolean,
-    val is_terminal: Boolean,
-    val name: String,
-    val timeline_id: Int,
-    val updated: String
+    val chats: List<Chat?>? = null,
+    val created: String? = null,
+    val events: List<Event?>? = null,
+    val is_primary: Boolean? = null,
+    val is_terminal: Boolean? = null,
+    val name: String? = null,
+    val timeline_id: Int? = null,
+    val updated: String? = null
 )
 
 
-@kotlinx.serialization.Serializable
+
 data class Image(
-    val resource_fid: String,
-    val resource_id: Int,
-    val resource_preset: String,
-    val resource_processed: Boolean,
-    val resource_progress: Int,
-    val resource_type: String,
-    val resource_uri: String
+    val resource_fid: String? = null,
+    val resource_id: Int? = null,
+    val resource_preset: String? = null,
+    val resource_processed: Boolean? = null,
+    val resource_progress: Int? = null,
+    val resource_type: String? = null,
+    val resource_uri: String? = null
 )
 
 
-@kotlinx.serialization.Serializable
+
 data class Chat(
-    val chat_id: Int,
-    val display_name: String,
-    val is_group: Boolean,
-    val is_locked: Boolean,
-    val name: String,
-    val owned: @Polymorphic Any,
-    val price: Int,
-    val timeline_id: Int
+    val chat_id: Int? = null,
+    val display_name: String? = null,
+    val is_group: Boolean? = null,
+    val is_locked: Boolean? = null,
+    val name: String? = null,
+    val owned: Any? = null,
+    val price: Int? = null,
+    val timeline_id: Int? = null
 )
 
 
-@kotlinx.serialization.Serializable
+
 data class Event(
-    val `data`: Data,
-    val has_options: Boolean,
-    val sequence: Int,
-    val type: String
+    val `data`: Data? = null,
+    val has_options: Boolean? = null,
+    val sequence: Int? = null,
+    val type: String? = null
 )
 
 
-@kotlinx.serialization.Serializable
+
 data class Data(
-    val background_colour: String,
-    val character_id: Int,
-    val character_share_id: Int,
-    val chat_action_id: Int,
-    val chat_id: Int,
-    val chat_message_id: Int,
-    val content: String,
-    val created: String,
-    val duration: Int,
-    val has_options: Boolean,
-    val has_url: Boolean,
-    val is_live: Boolean,
-    val is_locked: Boolean,
-    val is_public: Boolean,
-    val media: List<Media>,
-    val media_duration: @Polymorphic Any,
-    val options_timeout: Int,
-    val owned: @Polymorphic Any,
-    val price: Int,
-    val resource_id: @Polymorphic Any,
-    val sequence: Int,
-    val stream_path: @Polymorphic Any,
-    val thumb: List<Thumb>,
-    val thumb_resource_id: @Polymorphic Any,
-    val updated: String,
-    val url_label: @Polymorphic Any
+    val background_colour: String? = null,
+    val character_id: Int? = null,
+    val character_share_id: Int? = null,
+    val chat_action_id: Int? = null,
+    val chat_id: Int? = null,
+    val chat_message_id: Int? = null,
+    val content: String? = null,
+    val created: String? = null,
+    val duration: Int? = null,
+    val has_options: Boolean? = null,
+    val has_url: Boolean? = null,
+    val is_live: Boolean? = null,
+    val is_locked: Boolean? = null,
+    val is_public: Boolean? = null,
+    val media: List<Media?>? = null,
+    val media_duration: Any? = null,
+    val options_timeout: Int? = null,
+    val owned: Any? = null,
+    val price: Int? = null,
+    val resource_id: Any? = null,
+    val sequence: Int? = null,
+    val stream_path: Any? = null,
+    val thumb: List<Thumb?>? = null,
+    val thumb_resource_id: Any? = null,
+    val updated: String? = null,
+    val url_label: Any? = null
 )
 
 
-@kotlinx.serialization.Serializable
+
 data class Media(
-    val resource_fid: String,
-    val resource_id: Int,
-    val resource_preset: String,
-    val resource_processed: Boolean,
-    val resource_progress: Int,
-    val resource_type: String,
-    val resource_uri: String
+    val resource_fid: String? = null,
+    val resource_id: Int? = null,
+    val resource_preset: String? = null,
+    val resource_processed: Boolean? = null,
+    val resource_progress: Int? = null,
+    val resource_type: String? = null,
+    val resource_uri: String? = null
 )
 
 
-@kotlinx.serialization.Serializable
+
 data class Thumb(
-    val resource_fid: String,
-    val resource_id: Int,
-    val resource_preset: String,
-    val resource_processed: Boolean,
-    val resource_progress: Int,
-    val resource_type: String,
-    val resource_uri: String
+    val resource_fid: String? = null,
+    val resource_id: Int? = null,
+    val resource_preset: String? = null,
+    val resource_processed: Boolean? = null,
+    val resource_progress: Int? = null,
+    val resource_type: String? = null,
+    val resource_uri: String? = null
 )

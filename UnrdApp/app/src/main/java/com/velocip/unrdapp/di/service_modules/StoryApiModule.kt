@@ -1,20 +1,23 @@
 package com.velocip.unrdapp.di.service_modules
 
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.*
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.velocip.unrdapp.service.StoryApi
 import com.velocip.unrdapp.utils.AppConstants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.serialization.ExperimentalSerializationApi
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.*
-import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.json.Json
+
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -47,13 +50,19 @@ object StoryApiModule {
 
 
     val contentType = "application/json".toMediaType()
-
+    private var moshi = Moshi.Builder()
+            .add(KotlinJsonAdapterFactory())
+            .build()
 
 
     private val retrofitBuilder = Retrofit.Builder()
         .baseUrl(AppConstants.STORY_BASE_URL)
         .client(okHttpClient)
-        .addConverterFactory(Json.asConverterFactory(contentType))
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+
+
+    //.addConverterFactory(Json.asConverterFactory(contentType))
+
 
 
 

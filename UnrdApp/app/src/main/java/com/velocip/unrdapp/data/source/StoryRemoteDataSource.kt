@@ -27,7 +27,7 @@ class StoryRemoteDataSource(
     }
 
     override suspend fun getStories(): Result<List<Story>> {
-        val storyRes: StoryResult = storyApi.getStoryResultAsync().await()
+        val storyRes: StoryResult = storyApi.getStoryResultAsync()
         val story = storyRes.toStory()
         return Success(listOf(story))
     }
@@ -70,9 +70,8 @@ class StoryRemoteDataSource(
 
 
     override suspend fun getStoryAsync(storyId: String): Result<Story> = withContext(ioDispatcher){
-        val storyResult: Deferred<StoryResult> = storyApi.getStoryResultAsync()
         try {
-            val result = storyResult.await()
+            val result = storyApi.getStoryResultAsync()
             return@withContext Success(result.toStory())
         } catch (e: Exception) {
             return@withContext Error(e)
