@@ -1,6 +1,7 @@
 package com.velocip.unrdapp.viewmodule
 
 
+import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.velocip.unrdapp.data.models.Story
@@ -17,9 +18,10 @@ class StoryDetailsViewModel @Inject constructor(private val storyRepository: Sto
     private val _dataLoading = MutableLiveData<Boolean>()
     val dataLoading: LiveData<Boolean> = _dataLoading
 
-    private val _forceUpdate = MutableLiveData<Boolean>(false)
+    private val _forceUpdate = MutableLiveData(false)
 
     private val _stories: LiveData<List<Story>> = _forceUpdate.switchMap { forceUpdate ->
+        Log.d(TAG, "$forceUpdate")
         if (forceUpdate) {
             _dataLoading.value = true
             viewModelScope.launch {
@@ -68,6 +70,10 @@ class StoryDetailsViewModel @Inject constructor(private val storyRepository: Sto
 
     fun loadStories(forceUpdate: Boolean){
         _forceUpdate.value = forceUpdate
+    }
+
+    companion object {
+        const val TAG = "StoryDetailsViewModel"
     }
 
 }

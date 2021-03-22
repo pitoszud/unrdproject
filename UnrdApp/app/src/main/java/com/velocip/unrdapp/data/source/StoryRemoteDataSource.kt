@@ -27,7 +27,9 @@ class StoryRemoteDataSource(
     }
 
     override suspend fun getStories(): Result<List<Story>> {
-        return Success(listOf(Story(storyId = "1234")))
+        val storyRes: StoryResult = storyApi.getStoryResultAsync().await()
+        val story = storyRes.toStory()
+        return Success(listOf(story))
     }
 
     override suspend fun refreshStories() {

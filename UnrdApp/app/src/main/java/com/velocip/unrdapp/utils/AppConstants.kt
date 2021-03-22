@@ -7,7 +7,7 @@ class AppConstants {
         const val STORY_DATABASE_NAME = "story_database"
 
         // story api
-        const val STORY_BASE_URL = "https://s3-eu-west-1.amazonaws.com/unrd-scratch/resp.json/"
+        const val STORY_BASE_URL = "https://s3-eu-west-1.amazonaws.com/"
 
 
         // http client

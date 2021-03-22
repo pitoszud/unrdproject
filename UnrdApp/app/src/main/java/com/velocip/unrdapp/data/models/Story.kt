@@ -8,5 +8,8 @@ import androidx.room.PrimaryKey
 data class Story(
     @field:PrimaryKey
     @field:NonNull
-    val storyId: String
+    val storyId: String,
+    val created: String,
+    val duration: String,
+    val full_summary: String,
 )

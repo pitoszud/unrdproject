@@ -54,7 +54,10 @@ data class Result(
 fun StoryResult.toStory(): Story{
     val result = result
     return Story(
-        storyId = result.story_id.toString()
+            storyId = result.story_id.toString(),
+            created = result.created,
+            duration = result.duration,
+            full_summary = result.full_summary
     )
 }
 
