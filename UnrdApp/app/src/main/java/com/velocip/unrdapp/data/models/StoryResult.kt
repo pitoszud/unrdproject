@@ -11,7 +11,7 @@ data class Result(
         val age_from: Int? = null,
         val age_to: Int? = null,
         val background_image: List<BackgroundImage?>? = null,
-        val characters: List<StoryCharacter?>? = null,
+        val characters: List<Character?>? = null,
         val contacts: List<Any?>? = null,
         val created: String? = null,
         val duration: String? = null,
@@ -54,9 +54,9 @@ fun StoryResult.toStory(): Story{
 
     val storyCharacters = result?.characters?.map {
         StoryCharacter(
-                characterId = it?.characterId ?: "",
+                characterId = it?.character_id.toString(),
                 name = it?.name ?: "",
-                imageUrl = it?.imageUrl ?: ""
+                imageUrl = it?.image?.resource_uri ?: ""
         )
     }
 

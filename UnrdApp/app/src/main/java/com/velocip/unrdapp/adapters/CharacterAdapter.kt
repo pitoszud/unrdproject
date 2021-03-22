@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.velocip.unrdapp.data.models.StoryCharacter
+import com.velocip.unrdapp.databinding.StoryCharacterItemBinding
 import com.velocip.unrdapp.viewmodels.StoryDetailsViewModel
 
 class CharacterAdapter(private val viewModel: StoryDetailsViewModel): ListAdapter<StoryCharacter, RecyclerView.ViewHolder>(CharacterDiffCallback()) {
@@ -21,11 +22,11 @@ class CharacterAdapter(private val viewModel: StoryDetailsViewModel): ListAdapte
 
 
 
-    class CharacterViewHolder(private val binding: CharacterItemBinding): RecyclerView.ViewHolder(binding.root){
+    class CharacterViewHolder(private val binding: StoryCharacterItemBinding): RecyclerView.ViewHolder(binding.root){
 
         fun bind(vm: StoryDetailsViewModel, item: StoryCharacter){
             with(binding){
-                character = item
+                userCharacter = item
                 viewModel = vm
                 executePendingBindings()
             }
@@ -34,10 +35,7 @@ class CharacterAdapter(private val viewModel: StoryDetailsViewModel): ListAdapte
         companion object{
             fun from(parent: ViewGroup): CharacterViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = CharacterItemBinding.inflate(layoutInflater, parent, false)
-
-                binding.eventStart = "start"
-                binding.eventFinish = "finish"
+                val binding = StoryCharacterItemBinding.inflate(layoutInflater, parent, false)
 
                 return CharacterViewHolder(
                         binding
